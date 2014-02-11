@@ -1,10 +1,10 @@
-#version 150
+#version 130
 
 //Vertex Properties
-in vec4 vPosition;
-in vec4 vColor;
+attribute vec4 vPosition;
+attribute vec4 vColor;
 
-out vec4 fColor;
+varying vec4 fColor;
 
 uniform mat4 MVP;
 

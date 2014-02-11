@@ -1,17 +1,17 @@
-#version 150
+#version 120
 
 //Vertex Properties
 //layout(location = #) if version is 330 or greater
-in vec4 vPosition;
-in vec2 vUV;
-in vec3 vNormal;
+attribute vec4 vPosition;
+attribute vec2 vUV;
+attribute vec3 vNormal;
 
-in vec4 vBoneIndices;
-in vec4 vBoneWeights;
-in float vWeightFormula;
+attribute vec4 vBoneIndices;
+attribute vec4 vBoneWeights;
+attribute float vWeightFormula;
 
-out vec2 UV;
-out vec3 normal;
+varying vec2 UV;
+varying vec3 normal;
 
 uniform mat4 MVP;
 uniform mat4 Bones[254];

@@ -1,4 +1,4 @@
-#version 150
+#version 120
 
 uniform sampler2D textureSampler;
 uniform sampler2D sphereSampler;
@@ -19,10 +19,8 @@ uniform float edgeSize;
 uniform float fSphereMode; //sphereMode stored as a float
 
 
-in vec2 UV;
-in vec3 normal;
-
-out vec4 color;
+varying vec2 UV;
+varying vec3 normal;
 
 vec4 getSphereColor()
 {
@@ -33,7 +31,7 @@ vec4 getSphereColor()
 	if(sphereMode>0) //if sphere mapping is used
 	{
 		vec2 sphereCoord = 0.5 * (1.0 + vec2(1.0, -1.0) * normalize(normal).xy);
-		sphereColor=texture(sphereSampler, sphereCoord);
+		sphereColor=texture2D(sphereSampler, sphereCoord);
 	}
 	
 	return sphereColor;
@@ -43,7 +41,7 @@ void main()
 {
 	if(isEdge)
 	{
-		color=edgeColor;
+		gl_FragColor=edgeColor;
 		return;
 	}
 	
@@ -51,7 +49,7 @@ void main()
 	
 	vec3 textureColor=vec3(1.0,1.0,1.0);
 	
-	textureColor*=texture(textureSampler, UV).rgb;
+	textureColor*=texture2D(textureSampler, UV).rgb;
 	
 	vec4 sphereColor=getSphereColor();
 	
@@ -85,10 +83,10 @@ void main()
 		
 		float dotNL = max(0.0, dot(normalize(lightDirection), normalize(normal)));
         vec2 toonCoord = vec2(0.0, 0.5 * (1.0 - dotNL));
-        vec3 toon = texture(toonSampler, toonCoord).rgb;
+        vec3 toon = texture2D(toonSampler, toonCoord).rgb;
 		
 		vec3 colorRGB=min((textureColor*scatteredLight) + reflectedLight,vec3(1.0));
-		color=vec4(colorRGB,texture(textureSampler, UV).a);
+		gl_FragColor=vec4(colorRGB,texture2D(textureSampler, UV).a);
 		
 		/*if(sphereMode==1)
 		{
@@ -112,20 +110,20 @@ void main()
 	{
 		if(normal.x==1)
 		{
-			color = vec4(0.0, 1.0, 0.0, 1.0);
+			gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 		}
 		else if(normal.y==1)
 		{
-			color = vec4(0.0, 0.4, 1.0, 1.0);
+			gl_FragColor = vec4(0.0, 0.4, 1.0, 1.0);
 		}
 		else
 		{
-			color = vec4(1.0, 0.5, 0.5, 0.5);
+			gl_FragColor = vec4(1.0, 0.5, 0.5, 0.5);
 		}
 		//vec2 pos={0.1,0.1};
 		
-		//color = texture(textureSampler, UV).rgb;
-		//color = texture(textureSampler, UV).rgb;
-		//color = texture(textureSampler2, UV).rgb;
+		//color = texture2D(textureSampler, UV).rgb;
+		//color = texture2D(textureSampler, UV).rgb;
+		//color = texture2D(textureSampler2, UV).rgb;
 	}
 }

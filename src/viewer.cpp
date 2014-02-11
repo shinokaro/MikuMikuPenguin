@@ -647,11 +647,11 @@ string hackShaderFile(string filename)
 }
 
 void Viewer::hackShaderFiles()
-{
+{	
 	//If using OpenGL 3.0, produce temporary shader files that use #version 130 (to prevent issues with OpenGL 3.0/GLSL 1.30 users
 	//Otherwise, use #version 150 to avoid issues in Mac OSX (which does not support #version 130)
 	
-	if(GLVersionMajor==3 && (GLVersionMinor==0 || GLVersionMinor==1))
+	if(0==1 && GLVersionMajor==3 && (GLVersionMinor==0 || GLVersionMinor==1)) //DO NOT hack shaders for legacy OpenGL 2.1
 	{
 		cout<<"Going to hack shader files for OpenGL "<<GLVersionMajor<<"."<<GLVersionMinor<<" (assuming GLSL version 130 supported)"<<endl;
 		
@@ -731,12 +731,12 @@ void Viewer::initGLFW()
 	
 	
 	//First, try to start in OpenGL 3.2+ mode
-	GLVersionHintMajor=3,GLVersionHintMinor=2;
+	GLVersionHintMajor=2,GLVersionHintMinor=1;
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 2); //2x antialiasing
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, GLVersionHintMajor); //OpenGL version
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, GLVersionHintMinor);
-	glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //Don't want old OpenGL
+	//glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	//glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //Don't want old OpenGL
 	
 	cout<<"Attempting to open GLFW window (OpenGL "<<GLVersionHintMajor<<"."<<GLVersionHintMinor<<")...";
 	//Open a window and create its OpenGL context
@@ -744,7 +744,7 @@ void Viewer::initGLFW()
 	{
 		cout<<"Failed to open GLFW window"<<endl;
 		
-		GLVersionHintMajor=3,GLVersionHintMinor=0;
+		GLVersionHintMajor=2,GLVersionHintMinor=1;
 		
 		glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, GLVersionHintMajor);
 		glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, GLVersionHintMinor);
